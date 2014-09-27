@@ -337,7 +337,7 @@ class WP_Object_Cache {
 			$this->redis = new Redis();
 			$this->redis->connect( $redis['host'], $redis['port'] );
 			$this->redis->setOption( Redis::OPT_SERIALIZER, $redis['serializer'] );
-			
+
 			if ( isset( $redis['auth'] ) ) {
 				$this->redis->auth( $redis['auth'] );
 			}
@@ -701,7 +701,7 @@ class WP_Object_Cache {
 		?><p>
 			<strong><?php $this->_i18n( '_e', 'Cache Hits:' ); ?></strong> <?php echo $this->_i18n( 'number_format_i18n', $this->cache_hits, false ); ?><br />
 			<strong><?php $this->_i18n( '_e', 'Cache Misses:' ); ?></strong> <?php echo $this->_i18n( 'number_format_i18n', $this->cache_misses, false ); ?><br />
-			<strong><?php $this->_i18n( '_e', 'Using Redis?' ); ?></strong> 
+			<strong><?php $this->_i18n( '_e', 'Using Redis?' ); ?></strong>
 			<?php echo $this->can_redis() ? $this->_i18n( '__', 'yes' ) : $this->_i18n( '__', 'no' );
 			?><br />
 		</p>
@@ -853,7 +853,7 @@ class WP_Object_Cache {
 	 * Since this class may run befor the i18n methods are loaded in WP, we'll make sure they
 	 * exist before using them. Most require a text domain, some don't, so the second param allows
 	 * specifiying which type is being called.
-	 * 
+	 *
 	 * @param  string $method The WP method to pass the string through if it exists.
 	 * @param  string $string The string to internationalize.
 	 * @param  bool   $domain Whether or not to pass the text domain to the method as well.
@@ -878,6 +878,7 @@ class WP_Object_Cache {
 
 		return call_user_func_array( $method, $params );
 	}
+
 	/**
 	 * Try to escape any HTML from output, if not available, strip tags.
 	 *

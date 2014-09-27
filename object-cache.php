@@ -310,8 +310,9 @@ class WP_Object_Cache {
 
 		// General Redis settings
 		$redis = array(
-			'host' => '127.0.0.1',
-			'port' => 6379,
+			'host'   => '127.0.0.1',
+			'port'   => 6379,
+			'socket' => null,
 		);
 
 		if ( defined( 'WP_REDIS_BACKEND_HOST' ) && WP_REDIS_BACKEND_HOST ) {
@@ -319,6 +320,9 @@ class WP_Object_Cache {
 		}
 		if ( defined( 'WP_REDIS_BACKEND_PORT' ) && WP_REDIS_BACKEND_PORT ) {
 			$redis['port'] = WP_REDIS_BACKEND_PORT;
+		}
+		if ( defined( 'WP_REDIS_BACKEND_SOCKET' ) && WP_REDIS_BACKEND_SOCKET ) {
+			$redis['socket'] = WP_REDIS_BACKEND_SOCKET;
 		}
 		if ( defined( 'WP_REDIS_BACKEND_AUTH' ) && WP_REDIS_BACKEND_AUTH ) {
 			$redis['auth'] = WP_REDIS_BACKEND_AUTH;
@@ -335,7 +339,13 @@ class WP_Object_Cache {
 		// Use Redis PECL library.
 		try {
 			$this->redis = new Redis();
-			$this->redis->connect( $redis['host'], $redis['port'] );
+
+			if ( $redis['socket'] ) {
+				$this->redis->connect( $redis['socket'] );
+			} else {
+				$this->redis->connect( $redis['host'], $redis['port'] );
+			}
+
 			$this->redis->setOption( Redis::OPT_SERIALIZER, $redis['serializer'] );
 
 			if ( isset( $redis['auth'] ) ) {
